@@ -84,7 +84,9 @@ namespace cems_logger_apidemo.logging
 
             var obj = new DotnetExceptionDto
             {
-                Message = ex.Message, StackTrace = stackTrace, Source = ex.Source,
+                Message = ex.Message,
+                StackTrace = stackTrace,
+                Source = ex.Source,
                 ProgLanguage = "C#",
                 Timestamp = unixTime,
                 ConnectionInfo = filteredConnectionProperties,

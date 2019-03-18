@@ -32,7 +32,7 @@ namespace cems_logger_dotnet
 
         public void SendLog(string dataJSonString)
         {
-            var url = CemsEndpointUrl + "api/log/apiError";
+            var url = CemsEndpointUrl + "api/log/dotnetWebError";
 
             using (var client = new WebClient())  
             {
