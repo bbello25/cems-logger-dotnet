@@ -1,11 +1,12 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace cems_logger_apidemo.logging
 {
     public class DotnetExceptionDto
     {
         public string Message { get; set; }
-        public StackTrace StackTrace { get; set; }
+        public String StackTrace { get; set; }
         public string Source { get; set; }
         public string ProgLanguage { get; set; }
         public long Timestamp { get; set; }
