@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Net;
+using cems_logger_dotnet.Interfaces;
+using Newtonsoft.Json;
 
 namespace cems_logger_dotnet
 {
@@ -30,15 +32,17 @@ namespace cems_logger_dotnet
             }
         }
 
-        public void SendLog(string dataJSonString)
+        public void SendLog(ICemsLogEvent logEvent)
         {
-            var url = CemsEndpointUrl + "api/log/dotnetWebError";
+            var url = CemsEndpointUrl + "api/log/dotnet";
+
+            var body = JsonConvert.SerializeObject(logEvent);
 
             using (var client = new WebClient())  
             {
                 client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
                 client.Headers.Add("api-key", ApiKey);
-                client.UploadString(new Uri(url), "POST", dataJSonString);
+                client.UploadString(new Uri(url), "POST", body);
                 Console.WriteLine($"Log sent to cems..");
             }
 

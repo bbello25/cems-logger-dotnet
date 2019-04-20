@@ -17,9 +17,11 @@ namespace cems_logger_apidemo
 {
     public class Startup
     {
+        private readonly IHostingEnvironment _env;
 
-        public Startup(IConfiguration configuration, ILogger<Startup> logger)
+        public Startup(IConfiguration configuration, ILogger<Startup> logger, IHostingEnvironment env)
         {
+            _env = env;
             Configuration = configuration;
         }
 

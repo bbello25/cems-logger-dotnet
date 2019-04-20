@@ -1,6 +1,8 @@
-﻿namespace cems_logger_apidemo.logging
+﻿using cems_logger_dotnet.Interfaces;
+
+namespace cems_logger_dotnet.Models
 {
-    public class FilteredConnectionProperties
+    class CemsConnectionInfo : ICemsConnectionInfo
     {
         public string LocalIpAddressV4 { get; set; }
         public string LocalIpAddressV6 { get; set; }
