@@ -9,23 +9,26 @@ namespace cems_logger_dotnet.Models
 {
     public class CemsLogEvent : ICemsLogEvent
     {
-        public ICemsApplicationInfo DotnetApplicationInfo { get; set; }
+        public ICemsApplicationInfo ApplicationInfo { get; set; }
+        public ICemsDotnetApplicationInfo DotnetApplicationInfo { get; set; }
         public ICemsExceptionDetails ExceptionDetails { get; set; }
         public DotnetExceptionDetails DotnetExceptionDetails { get; set; }
         public ICemsHttpContext DotnetHttpContext { get; set; }
         public int Platform { get; set; }
         public DateTime Timestamp { get; set; }
+
         public CemsLogEvent()
         {
             Platform = 1;
             Timestamp = DateTime.Now;
-            DotnetApplicationInfo = new CemsApplicationInfo();
+            DotnetApplicationInfo = new CemsDotnetApplicationInfo();
+            ApplicationInfo = new CemsApplicationInfo();
             ExceptionDetails = new CemsExceptionDetails();
             DotnetHttpContext = new CemsHttpContext();
             DotnetExceptionDetails = new DotnetExceptionDetails();
         }
 
-        public void AppendExceptionDetails(Exception e)
+        public void AddExceptionDetails(Exception e)
         {
             ExceptionDetails.Message = e.Message;
             ExceptionDetails.Source = e.Source;
@@ -49,7 +52,8 @@ namespace cems_logger_dotnet.Models
                     };
                     stackFrames.Add(frame);
                 }
-               DotnetExceptionDetails.DotnetStackTrace.StackFrames = stackFrames;
+
+                DotnetExceptionDetails.DotnetStackTrace.StackFrames = stackFrames;
             }
         }
 
@@ -67,14 +71,22 @@ namespace cems_logger_dotnet.Models
             DotnetHttpContext.Request.QueryString = httpContext.Request.QueryString.ToString();
             DotnetHttpContext.Request.Scheme = httpContext.Request.Scheme;
 
-            DotnetHttpContext.Connection.LocalIpAddressV4 = httpContext.Connection.LocalIpAddress.MapToIPv4().ToString();
-            DotnetHttpContext.Connection.LocalIpAddressV6 = httpContext.Connection.LocalIpAddress.MapToIPv6().ToString();
+            DotnetHttpContext.Connection.LocalIpAddressV4 =
+                httpContext.Connection.LocalIpAddress.MapToIPv4().ToString();
+            DotnetHttpContext.Connection.LocalIpAddressV6 =
+                httpContext.Connection.LocalIpAddress.MapToIPv6().ToString();
             DotnetHttpContext.Connection.LocalPort = httpContext.Connection.LocalPort;
             DotnetHttpContext.Connection.RemoteIpAddressV4 =
                 httpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
             DotnetHttpContext.Connection.RemoteIpAddressV6 =
                 httpContext.Connection.RemoteIpAddress.MapToIPv6().ToString();
             DotnetHttpContext.Connection.RemotePort = httpContext.Connection.RemotePort;
+        }
+        public void AddApplicationInfo(string name,  string version, string environment)
+        {
+            ApplicationInfo.Name = name;
+            ApplicationInfo.Version = version;
+            ApplicationInfo.Environment = environment;
         }
     }
 }

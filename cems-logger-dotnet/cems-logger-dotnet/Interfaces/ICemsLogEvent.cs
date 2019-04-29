@@ -5,8 +5,9 @@ namespace cems_logger_dotnet.Interfaces
 {
     public interface ICemsLogEvent
     {
-        ICemsApplicationInfo DotnetApplicationInfo { get; set; }
-        ICemsExceptionDetails ExceptionDetails { get; set; }
+        ICemsApplicationInfo ApplicationInfo { get; set; }
+        ICemsDotnetApplicationInfo DotnetApplicationInfo { get; set; }
+         ICemsExceptionDetails ExceptionDetails { get; set; }
         DotnetExceptionDetails DotnetExceptionDetails { get; set; }
         ICemsHttpContext DotnetHttpContext { get; set; }
 

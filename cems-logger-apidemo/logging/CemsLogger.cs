@@ -58,21 +58,23 @@ namespace cems_logger_apidemo.logging
                 var logEvent = new CemsLogEvent();
                 var httpContext = _httpContextAccessor.HttpContext;
 
-                logEvent.DotnetApplicationInfo.Name = _env.ApplicationName;
+                var appVersion = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                    .InformationalVersion;
+
+                logEvent.AddApplicationInfo(_env.ApplicationName, appVersion, _env.EnvironmentName);
+
                 logEvent.DotnetApplicationInfo.Host = _configuration["HostListen"];
                 logEvent.DotnetApplicationInfo.Port = _configuration["PortListen"];
-                logEvent.DotnetApplicationInfo.HostName = Environment.MachineName;
-                logEvent.DotnetApplicationInfo.Os = System.Runtime.InteropServices.RuntimeInformation.OSDescription;
-                logEvent.DotnetApplicationInfo.Environment = _env.EnvironmentName;
-                logEvent.DotnetApplicationInfo.AssemblyVersion = Assembly.GetEntryAssembly()
-                    .GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+                logEvent.DotnetApplicationInfo.Hostname = Environment.MachineName;
+                logEvent.DotnetApplicationInfo.Os =
+                    System.Runtime.InteropServices.RuntimeInformation.OSDescription;
+                logEvent.DotnetApplicationInfo.AssemblyVersion = appVersion;
 
-                logEvent.AppendExceptionDetails(exception);
+                logEvent.AddExceptionDetails(exception);
                 logEvent.AddHttpContext(httpContext);
-             
+
                 CemsLoggerSender.SendLog(logEvent);
             }
         }
-     
     }
 }
