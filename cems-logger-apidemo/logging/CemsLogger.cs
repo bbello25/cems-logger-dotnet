@@ -31,8 +31,8 @@ namespace cems_logger_apidemo.logging
             _configuration = configuration;
             _env = env;
             var authenticationSection = _configuration.GetSection("Authentication");
-
-            CemsLoggerSender = new CemsLoggerSender(authenticationSection["CemsApiKey"]);
+            
+            CemsLoggerSender = new CemsLoggerSender(authenticationSection["CemsApiKey"], endpointUrl: authenticationSection["loggerEndpoint"]);
         }
 
         public IDisposable BeginScope<TState>(TState state)
@@ -57,7 +57,7 @@ namespace cems_logger_apidemo.logging
             {
                 var logEvent = new CemsLogEvent();
                 var httpContext = _httpContextAccessor.HttpContext;
-
+                //TODO mover this settings to logger initialization
                 var appVersion = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()
                     .InformationalVersion;
 
